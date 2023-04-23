@@ -166,6 +166,8 @@ public:
     ~List();
 };
 
+
+
 template<typename T>
 void List<T>::delete_node(Node *tmp) {
     if (head != nullptr && tmp != nullptr) {

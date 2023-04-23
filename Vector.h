@@ -10,16 +10,24 @@ class Vector {
 private:
     int size=0;
     int capacity=2;
-    T *array = new T[2];
+    T *array;
     void reallocate();
 public:
     T& operator[](int n);
-    void push_back(T obj);
+    void push_back(T &obj);
+    void push_back_value(T obj);
     int getSize() const;
     Vector();
+    Vector(int size);
     ~Vector();
 };
 
+template<typename T>
+Vector<T>::Vector(int size) {
+    this->size = size;
+    capacity = size*2;
+    array = new T[capacity];
+}
 
 
 template<typename T>
@@ -29,7 +37,15 @@ T &Vector<T>::operator[](int n) {
 
 
 template<typename T>
-void Vector<T>::push_back(T obj) {
+void Vector<T>::push_back(T &obj) {
+    if(size==capacity){
+        reallocate();
+    }
+    array[size++] = obj;
+}
+
+template<typename T>
+void Vector<T>::push_back_value(T obj) {
     if(size==capacity){
         reallocate();
     }
@@ -57,6 +73,7 @@ int Vector<T>::getSize() const {
 
 template<typename T>
 Vector<T>::Vector() {
+    array = new T[2];
 }
 
 

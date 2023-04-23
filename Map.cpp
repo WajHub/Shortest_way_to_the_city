@@ -43,6 +43,17 @@ void Map::set_size_map() {
     }
 }
 
+bool Map::is_way(int x, int y) {
+    if(x>width || y>height || x<0 || y<0){
+        return false;
+    }
+    else {
+        if(map[y][x]=='#') return true;
+        else return false;
+    }
+}
+
+
 bool Map::is_location(int x, int y) {
     if(x>width || y>height || x<0 || y<0){
         return false;
@@ -97,3 +108,19 @@ void Map::find_location(City &city) {
         }
     }
 }
+
+ Map::Point Map::find_city(int **visited_map,int x, int y) {
+//    int direction_x[4]={1,0,-1,0};
+//    int direction_y[4]={0,1,0,-1};
+//    for(int i=0;i<4;i++){
+//        int x1=x+direction_x[i];
+//        int y1=y+direction_y[i];
+//        if(is_way(x1,y1)){
+//            if(visited_map[y1][x1]==0){
+//                visited_map[y1][x1]=1;
+//                return Point(x1,y1);
+//            }
+//        }
+//    }
+}
+
