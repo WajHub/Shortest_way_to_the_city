@@ -23,11 +23,8 @@ public:
     void setName(const String &name);
     int getXLocationFirstLetter() const;
     int getYLocationFirstLetter() const;
-
     void setXLocationFirstLetter(int xLocationFirstLetter);
-
     void setYLocationFirstLetter(int yLocationFirstLetter);
-
     int getX() const;
     int getY() const;
     const String &getName() const;

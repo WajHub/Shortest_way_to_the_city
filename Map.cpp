@@ -44,7 +44,7 @@ void Map::set_size_map() {
 }
 
 bool Map::is_way(int x, int y) {
-    if(x>width || y>height || x<0 || y<0){
+    if(x>=width || y>=height || x<0 || y<0){
         return false;
     }
     else {
@@ -54,8 +54,8 @@ bool Map::is_way(int x, int y) {
 }
 
 
-bool Map::is_location(int x, int y) {
-    if(x>width || y>height || x<0 || y<0){
+bool Map::is_city(int x, int y) {
+    if(x>=width || y>=height || x<0 || y<0){
         return false;
     }
     else {
@@ -63,6 +63,8 @@ bool Map::is_location(int x, int y) {
         else return false;
     }
 }
+
+
 
 void Map::name_of_city_and_location(Vector<City> &cities) {
     for(int i=0;i<cities.getSize();i++){
@@ -90,7 +92,7 @@ void Map::find_location(City &city) {
         int y = city.getYLocationFirstLetter();
         x+=direction_x[j];
         y+=direction_y[j];
-        if(is_location(x,y)){
+        if(is_city(x,y)){
             city.setX(x);
             city.setY(y);
             return;
@@ -101,7 +103,7 @@ void Map::find_location(City &city) {
         int y = city.getYLocationFirstLetter();
         x+=direction_x[j];
         y+=direction_y[j];
-        if(is_location(x,y)){
+        if(is_city(x,y)){
             city.setX(x);
             city.setY(y);
             return;
@@ -109,18 +111,4 @@ void Map::find_location(City &city) {
     }
 }
 
- Map::Point Map::find_city(int **visited_map,int x, int y) {
-//    int direction_x[4]={1,0,-1,0};
-//    int direction_y[4]={0,1,0,-1};
-//    for(int i=0;i<4;i++){
-//        int x1=x+direction_x[i];
-//        int y1=y+direction_y[i];
-//        if(is_way(x1,y1)){
-//            if(visited_map[y1][x1]==0){
-//                visited_map[y1][x1]=1;
-//                return Point(x1,y1);
-//            }
-//        }
-//    }
-}
 

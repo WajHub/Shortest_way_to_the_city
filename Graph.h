@@ -53,6 +53,7 @@ public:
     Graph(Vector<City> &cities);
     Vertex get_vertex(String &name);
     Vertex &get_vertex(int x, int y);
+    Vertex &get_vertex(int index);
     City &get_start() ;
     int getSize() const;
     void add_edge(Vertex &v1, Vertex &v2, int distance);

@@ -14,18 +14,38 @@ private:
     void reallocate();
 public:
     T& operator[](int n);
-    void push_back(T &obj);
-    void push_back_value(T obj);
+    void push_back(const T &obj);
+//    void push_back_value(T obj);
     int getSize() const;
     Vector();
     Vector(int size);
+    Vector& operator=(const Vector& other);
     ~Vector();
 };
 
 template<typename T>
+Vector<T>& Vector<T>::operator=(const Vector& other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    // Deallocate old memory
+    delete[] array;
+
+    size = other.size;
+    capacity = other.capacity;
+    array = new T[capacity];
+    for (int i = 0; i < size; i++) {
+        array[i] = other.array[i];
+    }
+
+    return *this;
+}
+
+template<typename T>
 Vector<T>::Vector(int size) {
     this->size = size;
-    capacity = size*2;
+    capacity = size;
     array = new T[capacity];
 }
 
@@ -37,20 +57,20 @@ T &Vector<T>::operator[](int n) {
 
 
 template<typename T>
-void Vector<T>::push_back(T &obj) {
+void Vector<T>::push_back(const T &obj) {
     if(size==capacity){
         reallocate();
     }
     array[size++] = obj;
 }
 
-template<typename T>
-void Vector<T>::push_back_value(T obj) {
-    if(size==capacity){
-        reallocate();
-    }
-    array[size++] = obj;
-}
+//template<typename T>
+//void Vector<T>::push_back_value(T obj) {
+//    if(size==capacity){
+//        reallocate();
+//    }
+//    array[size++] = obj;
+//}
 
 template<typename T>
 void Vector<T>::reallocate() {
