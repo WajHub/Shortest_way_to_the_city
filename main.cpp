@@ -56,14 +56,10 @@ void read_map(Vector<City> &cities,Map &map){
 
 
 void bfs(Map &map, Graph &graph){
-    Vector<Vector<int>>visited_map;
-    for(int i=0;i<map.get_height();i++){
-        visited_map.push_back(Vector<int>(map.get_width()));
-        for(int j=0;j<map.get_width();j++){
-            visited_map[i][j]=0;
-        }
-    }
+    Vector<City>visited_city;
     for(int i=0;i<graph.getSize();i++){
+        Vector<Map::Point>visited_way;
+        visited_city.push_back(graph.get_vertex(i).getCity());
         City city = graph.get_vertex(i).getCity();
         List <Map::Point> queue;
         Map::Point point(city.getX(),city.getY(),0);
@@ -71,17 +67,20 @@ void bfs(Map &map, Graph &graph){
         while(!queue.isEmpty()){
             point = queue.get_element(1);
             queue.delete_element(1);
-            point.visit(visited_map);
+            point.visit(visited_way);
             int direction_x [4]={-1,0,1,0};
             int direction_y [4]={0,-1,0,1};
             for(int j=0;j<4;j++){
                 int x = point.getX()+direction_x[j];
                 int y = point.getY()+direction_y[j];
-                if(map.is_city(x,y) && visited_map[y][x]==0){
-                    graph.add_edge(graph.get_vertex(i),
-                                   graph.get_vertex(x,y),point.getDistance());
+                if(map.is_city(x,y) && !visited_way.exists(Map::Point(x,y,0))){
+                    if(!visited_city.exists(graph.get_vertex(x,y).getCity())){
+                        graph.add_edge(graph.get_vertex(i),
+                                       graph.get_vertex(x,y),point.getDistance());
+                        visited_way.push_back(Map::Point(x,y,0));
+                    }
                 }
-                else if(map.is_way(x,y) && visited_map[y][x]==0){
+                else if(map.is_way(x,y) && !visited_way.exists(Map::Point(x,y,0))){
                     Map::Point new_point(x,y,point.getDistance());
                     queue.push(new_point);
                 }

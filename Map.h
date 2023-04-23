@@ -31,9 +31,12 @@ public:
             this->y=y;
             this->distance=distance;
         }
-        void visit(Vector<Vector<int>>&visited_map){
+        bool operator==(const Point& other) const{
+            return x==other.x && y==other.y;
+        }
+        void visit(Vector<Point> &visited){
+            visited.push_back(*this);
             distance++;
-            visited_map[y][x]=1;
         }
         void setX(int x) {
             Point::x = x;

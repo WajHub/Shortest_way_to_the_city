@@ -15,13 +15,21 @@ private:
 public:
     T& operator[](int n);
     void push_back(const T &obj);
-//    void push_back_value(T obj);
+    bool exists(const T &obj);
     int getSize() const;
     Vector();
     Vector(int size);
     Vector& operator=(const Vector& other);
     ~Vector();
 };
+
+template<typename T>
+bool Vector<T>::exists(const T &obj) {
+    for(int i=0;i<size;i++){
+        if(array[i]==obj) return true;
+    }
+    return false;
+}
 
 template<typename T>
 Vector<T>& Vector<T>::operator=(const Vector& other) {
@@ -63,14 +71,6 @@ void Vector<T>::push_back(const T &obj) {
     }
     array[size++] = obj;
 }
-
-//template<typename T>
-//void Vector<T>::push_back_value(T obj) {
-//    if(size==capacity){
-//        reallocate();
-//    }
-//    array[size++] = obj;
-//}
 
 template<typename T>
 void Vector<T>::reallocate() {
