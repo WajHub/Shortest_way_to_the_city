@@ -1,7 +1,6 @@
 //
 // Created by hubert on 21.04.2023.
 //
-
 #include "Map.h"
 #include <string.h>
 
@@ -125,5 +124,4 @@ void Map::print() {
         std::cout<<std::endl;
     }
 }
-
 

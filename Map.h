@@ -5,7 +5,6 @@
 #ifndef SHORTEST_WAY_TO_THE_CITY_MAP_H
 #define SHORTEST_WAY_TO_THE_CITY_MAP_H
 
-
 #include "City.h"
 #include "Vector.h"
 
