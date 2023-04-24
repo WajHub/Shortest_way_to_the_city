@@ -37,6 +37,9 @@ private:
         City city;
     public:
         Vector<Edge> edges;
+        Vertex(){
+
+        }
         Vertex(City &city){
             this->city = city;
         };
@@ -50,12 +53,13 @@ private:
     int size;
     Vector<Vertex*> vertices;
 public:
+    void dijkstra(String &source, String &destination, int order);
     Graph(Vector<City> &cities);
-    Vertex get_vertex(String &name);
+    Vertex &get_vertex(String &name);
     Vertex &get_vertex(int x, int y);
     Vertex &get_vertex(int index);
-    City &get_start() ;
     int getSize() const;
+    int getId(const String &name);
     void add_edge(Vertex &v1, Vertex &v2, int distance);
     void print();
     ~Graph();

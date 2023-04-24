@@ -15,13 +15,28 @@ private:
 public:
     T& operator[](int n);
     void push_back(const T &obj);
+    void delete_element(int index);
     bool exists(const T &obj);
+    bool is_empty();
     int getSize() const;
     Vector();
     Vector(int size);
     Vector& operator=(const Vector& other);
     ~Vector();
 };
+
+template<typename T>
+bool Vector<T>::is_empty() {
+    return size==0;
+}
+
+template<typename T>
+void Vector<T>::delete_element(int index) {
+    for(int i=index;i<size-1;i++){
+        array[i]=array[i+1];
+    }
+    size--;
+}
 
 template<typename T>
 bool Vector<T>::exists(const T &obj) {

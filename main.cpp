@@ -54,7 +54,6 @@ void read_map(Vector<City> &cities,Map &map){
     }
 }
 
-
 void bfs(Map &map, Graph &graph){
     Vector<City>visited_city;
     for(int i=0;i<graph.getSize();i++){
@@ -89,14 +88,72 @@ void bfs(Map &map, Graph &graph){
     }
 }
 
+void read_amount(int &amount){
+    char buff[LENGTH_BUFF];
+    char ch=' ';
+    int it=0;
+    memset(buff, '\0', sizeof(buff));
+    while(std::cin.get(ch) && ch!='\n'){
+        buff[it]=ch;
+        it++;
+    }
+    amount = convert_to_int(buff);
+}
+
+void read_name(String &name){
+    char buff[LENGTH_BUFF];
+    char ch=' ';
+    int it=0;
+    memset(buff, '\0', sizeof(buff));
+    while(std::cin.get(ch) && ch!=' '){
+        buff[it]=ch;
+        it++;
+    }
+    name.inputString(buff,it);
+}
+
+void add_airline(Graph &graph){
+    int amount_airline_connections=0;
+    read_amount(amount_airline_connections);
+    for(int i=0;i<amount_airline_connections;i++){
+        String city1;
+        String city2;
+        int distance;
+        read_name(city1);
+        read_name(city2);
+        read_amount(distance);
+        graph.add_edge(graph.get_vertex(city1),graph.get_vertex(city2),distance);
+    }
+}
+
+void run_order(Graph &graph){
+    int amount_orders=0;
+    read_amount(amount_orders);
+    for(int i=0;i<amount_orders;i++){
+        String city1;
+        String city2;
+        int order;
+        read_name(city1);
+        read_name(city2);
+        read_amount(order);
+        graph.dijkstra(city1,city2, order);
+    }
+}
+
 int main() {
-    freopen("input.txt", "r", stdin);
+//    freopen("input.txt", "r", stdin);
     Map map;
     Vector<City> cities;
+
     read_map(cities,map);
     map.name_of_city_and_location(cities);
+    //Build Graph
     Graph graph(cities);
     bfs(map,graph);
-    graph.print();
+
+    add_airline(graph);
+    run_order(graph);
+//    graph.print();
+
     return 0;
 }
