@@ -122,7 +122,7 @@ void add_airline(Graph &graph){
         read_name(city1);
         read_name(city2);
         read_amount(distance);
-        graph.add_edge(graph.get_vertex(city1),graph.get_vertex(city2),distance);
+        graph.add_edge_one_direction(graph.get_vertex(city1),graph.get_vertex(city2),distance);
     }
 }
 
@@ -141,7 +141,7 @@ void run_order(Graph &graph){
 }
 
 int main() {
-//    freopen("input.txt", "r", stdin);
+    freopen("input.txt", "r", stdin);
     Map map;
     Vector<City> cities;
 
@@ -150,10 +150,10 @@ int main() {
     //Build Graph
     Graph graph(cities);
     bfs(map,graph);
-
     add_airline(graph);
-    run_order(graph);
 //    graph.print();
+    run_order(graph);
+
 
     return 0;
 }

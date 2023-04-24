@@ -1,7 +1,7 @@
 //
 // Created by hubert on 21.04.2023.
 //
-
+#include <iostream>
 #include "Graph.h"
 
 Graph::Graph(Vector<City> &cities) {
@@ -35,6 +35,7 @@ Graph::Vertex &Graph::get_vertex(String &name) {
             return *vertices[i];
         }
     }
+    return *vertices[0];
 }
 
 Graph::Vertex &Graph::get_vertex(int x, int y) {
@@ -43,12 +44,18 @@ Graph::Vertex &Graph::get_vertex(int x, int y) {
             return *vertices[i];
         }
     }
+    return *vertices[0];
 }
 
 void Graph::add_edge(Graph::Vertex &v1, Graph::Vertex &v2, int distance) {
     v1.edges.push_back(*new Edge(&v2, distance));
     v2.edges.push_back(*new Edge(&v1, distance));
 }
+
+void Graph::add_edge_one_direction(Graph::Vertex &v1, Graph::Vertex &v2, int distance) {
+    v1.edges.push_back(*new Edge(&v2, distance));
+}
+
 
 int Graph::getSize() const {
     return size;
@@ -66,8 +73,8 @@ void Graph::dijkstra(String &source, String &destination, int order) {
     for (int i = 0; i < vertices.getSize(); ++i) {
         vertices_to_visit.push_back(vertices[i]);
     }
-    int distance_from_source[vertices.getSize()];
-    int previous[vertices.getSize()];
+    int *distance_from_source = new int[vertices.getSize()];
+    int *previous = new int[vertices.getSize()];
     for (int i = 0; i < vertices.getSize(); ++i) {
         distance_from_source[i] = INT_MAX;
         previous[i] = -1;
@@ -113,7 +120,7 @@ void Graph::dijkstra(String &source, String &destination, int order) {
         int tmp_id  = previous[target_id];
         int start_id = getId(source);
         Vector<String> path;
-        while(tmp_id!=start_id){
+        while(tmp_id!=start_id && tmp_id!=-1){
             path.push_back(vertices[tmp_id]->getCity().getName());
             tmp_id = previous[tmp_id];
         }
@@ -122,6 +129,8 @@ void Graph::dijkstra(String &source, String &destination, int order) {
         }
     }
     std::cout<<std::endl;
+    delete[] distance_from_source;
+    delete [] previous;
 }
 
 int Graph::getId(const String &name) {
@@ -132,6 +141,7 @@ int Graph::getId(const String &name) {
     }
     return -1;
 }
+
 
 
 

@@ -24,9 +24,15 @@ int Map::get_height() {
 Map::~Map() {
     //delete map from memory
     for(int i=0;i<height;i++){
-        delete  map[i];
+        if(map[i]!= nullptr){
+            delete  map[i];
+        }
+
     }
-    delete [] map;
+    if(map!= nullptr){
+        delete [] map;
+    }
+
 }
 
 void Map::setWidth(int width) {
@@ -108,6 +114,15 @@ void Map::find_location(City &city) {
             city.setY(y);
             return;
         }
+    }
+}
+
+void Map::print() {
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+            std::cout<<map[i][j];
+        }
+        std::cout<<std::endl;
     }
 }
 

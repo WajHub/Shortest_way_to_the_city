@@ -12,8 +12,8 @@
 class Map {
 private:
     char **map;
-    int width;
-    int height;
+    int width=0;
+    int height=0;
     void find_location(City &city);
 public:
     class Point{
@@ -66,6 +66,7 @@ public:
     void setWidth(int width);
     void setHeight(int height);
     void set_size_map();
+    void print();
     char* operator[](int index);
     ~Map();
 };
