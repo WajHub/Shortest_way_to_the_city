@@ -34,15 +34,20 @@ private:
     };
     class Vertex{
     private:
+        int id;
         City city;
     public:
         Vector<Edge> edges;
         Vertex(){
 
         }
-        Vertex(City &city){
+        Vertex(City &city, int id){
             this->city = city;
+            this->id = id;
         };
+        int getId(){
+            return id;
+        }
         City &getCity()  {
             return city;
         }

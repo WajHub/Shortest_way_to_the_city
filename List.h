@@ -9,7 +9,7 @@
 #define SHORTEST_WAY_TO_THE_CITY_LIST_H
 
 
-#define LENGTH  8
+#define LENGTH  1
 
 template<typename T>
 class List {
@@ -167,7 +167,6 @@ public:
 };
 
 
-
 template<typename T>
 void List<T>::delete_node(Node *tmp) {
     if (head != nullptr && tmp != nullptr) {
@@ -310,6 +309,7 @@ List<T>::List() {
     head = nullptr;
     tail = nullptr;
 }
+
 
 template<typename T>
 void List<T>::push(T &obj) {

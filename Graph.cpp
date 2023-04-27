@@ -7,7 +7,7 @@
 Graph::Graph(Vector<City> &cities) {
     this->size = cities.getSize();
     for (int i = 0; i < cities.getSize(); ++i) {
-        vertices.push_back(new Vertex(cities[i]));
+        vertices.push_back(new Vertex(cities[i],i));
     }
 }
 
@@ -105,13 +105,15 @@ void Graph::dijkstra(String &source, String &destination, int order) {
                 id = index_min;
             }
         }
-
         visited.push_back(vertices[id]);
         for(int i=0;i<vertices_to_visit.getSize();i++){
             if(vertices_to_visit[i]->getCity().getName()==vertices[id]->getCity().getName()){
                 vertices_to_visit.delete_element(i);
                 break;
             }
+        }
+        if(id==target_id){
+            break;
         }
     }
 

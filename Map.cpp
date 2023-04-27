@@ -48,6 +48,7 @@ void Map::set_size_map() {
     }
 }
 
+
 bool Map::is_way(int x, int y) {
     if(x>=width || y>=height || x<0 || y<0){
         return false;
@@ -68,9 +69,6 @@ bool Map::is_city(int x, int y) {
         else return false;
     }
 }
-
-
-
 void Map::name_of_city_and_location(Vector<City> &cities) {
     for(int i=0;i<cities.getSize();i++){
         String name;
@@ -124,4 +122,6 @@ void Map::print() {
         std::cout<<std::endl;
     }
 }
+
+
 

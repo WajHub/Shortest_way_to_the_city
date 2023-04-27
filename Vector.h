@@ -5,6 +5,8 @@
 #ifndef SHORTEST_WAY_TO_THE_CITY_VECTOR_H
 #define SHORTEST_WAY_TO_THE_CITY_VECTOR_H
 
+#include <iostream>
+
 template<typename T>
 class Vector {
 private:
@@ -22,6 +24,17 @@ public:
     Vector();
     Vector(int size);
     Vector& operator=(const Vector& other);
+    friend std::ostream& operator<<(std::ostream& os, const Vector<T>& vec) {
+        os << "[";
+        for (int i = 0; i < vec.size; ++i) {
+            os << vec.array[i];
+            if (i < vec.size - 1) {
+                os << ", ";
+            }
+        }
+        os << "]";
+        return os;
+    }
     ~Vector();
 };
 
@@ -89,16 +102,13 @@ void Vector<T>::push_back(const T &obj) {
 
 template<typename T>
 void Vector<T>::reallocate() {
-    capacity = capacity*2;
+    capacity *= 2;
     T* new_arr = new T[capacity];
-    for(int i=0;i<size;i++){
+    for(int i = 0; i < size; i++){
         new_arr[i] = array[i];
     }
     delete [] array;
-    array = new T[capacity];
-    for(int i=0;i<size;i++){
-        array[i] = new_arr[i];
-    }
+    array = new_arr;
 }
 
 template<typename T>
