@@ -137,6 +137,8 @@ public:
 
     void push(T &obj);
 
+    void push2(T obj);
+
     bool delete_element(int n);
 
     void delete_all();
@@ -165,6 +167,7 @@ public:
 
     ~List();
 };
+
 
 
 template<typename T>
@@ -310,6 +313,21 @@ List<T>::List() {
     tail = nullptr;
 }
 
+template<typename T>
+void List<T>::push2(T obj) {
+    if (head == nullptr) {
+        Node *n = new Node(obj);
+        head = n;
+        tail = head;
+    } else if (tail->getCounter() < LENGTH) {
+        tail->add(obj);
+    } else {
+        Node *n = new Node(obj);
+        tail->next = n;
+        n->prev = tail;
+        tail = n;
+    }
+}
 
 template<typename T>
 void List<T>::push(T &obj) {

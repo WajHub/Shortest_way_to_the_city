@@ -5,11 +5,10 @@
 #include "City.h"
 #include "Map.h"
 #include "Graph.h"
-
+#include "Point.h"
 
 #include <chrono>
-using namespace std;
-using namespace std::chrono;
+
 
 
 int convert_to_int(char *buff){
@@ -120,19 +119,15 @@ void bfs(Map &map, Graph &graph){
     int map_height= map.get_height();
     int map_width= map.get_width();
     int graph_size= graph.getSize();
-    bool **visited_city;
-    visited_city = new bool*[map.get_height()];
     bool **visited_way;
     visited_way = new bool*[map.get_height()];
+
     for(int j=0;j<map_height;j++){
         visited_way[j]=new bool[map_width];
-        visited_city[j]=new bool[map_width];
     }
-    for(int j=0;j<map_height;j++){
-        for(int i=0;i<map_width;i++){
-            visited_city[j][i]=false;
-        }
-    }
+//    List<Point> points;
+    //dla kazdego miasta z grafu
+    Vector<Point> points;
     for(int i = 0; i < graph_size; i++){
         for(int z=0;z<map_height;z++){
             for(int j=0;j<map_width;j++){
@@ -140,45 +135,77 @@ void bfs(Map &map, Graph &graph){
             }
         }
         City *city = &graph.get_vertex(i).getCity();
-        int x = city->getX();
-        int y = city->getY();
-        visited_way[y][x]=true;
-        List<Map::Point> points;
-        Map::Point point(x,y,0);
-        points.push(point);
-        auto start = high_resolution_clock::now(); //początkowy czas
-        while(!points.isEmpty()){
-            point = points.get_element(1);
-            points.delete_element(1);
-            //Visit point
-            point.increase_distance();
-            visited_way[point.getY()][point.getX()]=true;
-            for(int j=0;j<4;j++){
-                x = point.getX()+direction_x[j];
-                y = point.getY()+direction_y[j];
-                if (map.is_way(x, y)) {
-                    if (!visited_way[y][x]) {
-                        Map::Point new_point(x, y, point.getDistance());
-                        points.push(new_point);
+        Point point(city->getX(),city->getY(),0);
+        visited_way[point.getY()][point.getX()]=true;
+        points.push_back(point);
+        while(!points.is_empty()){
+            for(int z=0;z<points.getSize();z++) {
+                //Visit point
+                points[z].increase_distance();
+
+//                for(int h=0;h<map_height;h++){
+//                    for(int o=0;o<map_width;o++){
+//                        std::cout<<map[h][o];
+//                    }
+//                    std::cout<<std::endl;
+//                }
+//                std::cout<<std::endl;
+//                for(int h=0;h<map_height;h++){
+//                    for(int o=0;o<map_width;o++){
+//                        if(visited_way[h][o]) std::cout<<"1";
+//                        else std::cout<<"0";
+//                    }
+//                    std::cout<<std::endl;
+//                }
+//                std::cout<<z<<": "<<points[z].getDistance()<<std::endl;
+//                std::cout<<std::endl;
+
+                //move
+                int directions=0;
+                point = points[z];
+                for(int j=0;j<4;j++){
+                    point.setX(point.getX()+direction_x[j]);
+                    point.setY(point.getY()+direction_y[j]);
+                    if (map.is_way(point.getX(), point.getY())) {
+                        if (!visited_way[point.getY()][point.getX()]) {
+                            if(directions==0){
+                                directions++;
+                                points[z].setX(points[z].getX()+direction_x[j]);
+                                points[z].setY(points[z].getY()+direction_y[j]);
+                                visited_way[points[z].getY()][points[z].getX()] = true;
+                            }
+                            else{
+                                visited_way[point.getY()][point.getX()] = true;
+                                points.push_back(Point(point.getX(),point.getY(),point.getDistance()));
+                            }
+                        }
+                    } else if (map.is_city(point.getX(), point.getY())) {
+                        if(!visited_way[point.getY()][point.getX()]){
+                            if (graph.get_vertex(point.getX(), point.getY()).getId() > i) {
+                                graph.add_edge(graph.get_vertex(i),
+                                               graph.get_vertex(point.getX(),point.getY()), point.getDistance());
+                                visited_way[point.getY()][point.getX()] = true;
+                                points.delete_element(z);
+                                directions++;
+                                z--;
+                            }
+                        }
                     }
-                } else if (map.is_city(x, y) && !visited_way[y][x]) {
-                    if (graph.get_vertex(x, y).getId() > i) {
-                        graph.add_edge(graph.get_vertex(i),
-                                       graph.get_vertex(x, y), point.getDistance());
-                        visited_way[y][x] = true;
-                    }
+                    point.setX(point.getX() - direction_x[j]);
+                    point.setY(point.getY() - direction_y[j]);
+                }
+                if(directions==0){
+                    points.delete_element(z);
+                    z--;
                 }
             }
-
         }
     }
     //delete visited_way
     for(int i=0;i<map_height;i++){
         delete [] visited_way[i];
-        delete [] visited_city[i];
     }
     delete [] visited_way;
-    delete [] visited_city;
 }
 
 int main() {
@@ -190,11 +217,19 @@ int main() {
     map.name_of_city_and_location(cities);
     //Build Graph
     Graph graph(cities);
-
+//    auto start = std::chrono::high_resolution_clock::now();
     bfs(map,graph);
+    // Koniec pomiaru czasu
+//    auto end = std::chrono::high_resolution_clock::now();
+
+//    // Obliczenie czasu wykonywania i wyświetlenie wyniku w milisekundach
+//    std::chrono::duration<double, std::milli> elapsed = end - start;
+//    std::cout << "Czas wykonywania programu: " << elapsed.count() << " ms\n";
 
     add_airline(graph);
-    graph.print();
+
+
+//    graph.print();
     run_order(graph);
 
 
