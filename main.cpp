@@ -7,8 +7,6 @@
 #include "Graph.h"
 #include "Point.h"
 
-#include <chrono>
-
 
 
 int convert_to_int(char *buff){
@@ -121,12 +119,9 @@ void bfs(Map &map, Graph &graph){
     int graph_size= graph.getSize();
     bool **visited_way;
     visited_way = new bool*[map.get_height()];
-
     for(int j=0;j<map_height;j++){
         visited_way[j]=new bool[map_width];
     }
-//    List<Point> points;
-    //dla kazdego miasta z grafu
     Vector<Point> points;
     for(int i = 0; i < graph_size; i++){
         for(int z=0;z<map_height;z++){
@@ -142,23 +137,6 @@ void bfs(Map &map, Graph &graph){
             for(int z=0;z<points.getSize();z++) {
                 //Visit point
                 points[z].increase_distance();
-
-//                for(int h=0;h<map_height;h++){
-//                    for(int o=0;o<map_width;o++){
-//                        std::cout<<map[h][o];
-//                    }
-//                    std::cout<<std::endl;
-//                }
-//                std::cout<<std::endl;
-//                for(int h=0;h<map_height;h++){
-//                    for(int o=0;o<map_width;o++){
-//                        if(visited_way[h][o]) std::cout<<"1";
-//                        else std::cout<<"0";
-//                    }
-//                    std::cout<<std::endl;
-//                }
-//                std::cout<<z<<": "<<points[z].getDistance()<<std::endl;
-//                std::cout<<std::endl;
 
                 //move
                 int directions=0;
@@ -185,9 +163,6 @@ void bfs(Map &map, Graph &graph){
                                 graph.add_edge(graph.get_vertex(i),
                                                graph.get_vertex(point.getX(),point.getY()), point.getDistance());
                                 visited_way[point.getY()][point.getX()] = true;
-                                points.delete_element(z);
-                                directions++;
-                                z--;
                             }
                         }
                     }
@@ -209,7 +184,7 @@ void bfs(Map &map, Graph &graph){
 }
 
 int main() {
-    freopen("input.txt", "r", stdin);
+//    freopen("input.txt", "r", stdin);
     Map map;
     Vector<City> cities;
 
@@ -217,14 +192,9 @@ int main() {
     map.name_of_city_and_location(cities);
     //Build Graph
     Graph graph(cities);
-//    auto start = std::chrono::high_resolution_clock::now();
-    bfs(map,graph);
-    // Koniec pomiaru czasu
-//    auto end = std::chrono::high_resolution_clock::now();
 
-//    // Obliczenie czasu wykonywania i wyświetlenie wyniku w milisekundach
-//    std::chrono::duration<double, std::milli> elapsed = end - start;
-//    std::cout << "Czas wykonywania programu: " << elapsed.count() << " ms\n";
+    bfs(map,graph);
+
 
     add_airline(graph);
 
