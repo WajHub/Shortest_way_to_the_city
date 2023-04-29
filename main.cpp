@@ -6,7 +6,9 @@
 #include "Map.h"
 #include "Graph.h"
 #include "Point.h"
+#include <list>
 
+#include <fstream>
 
 
 int convert_to_int(char *buff){
@@ -25,14 +27,14 @@ void read_map(Vector<City> &cities,Map &map){
     char ch=' ';
     int it=0;
     memset(buff, '\0', sizeof(buff));
-    while(std::cin.get(ch) && ch!=' '){
+    while((ch=getchar())&& ch!=' '){
         buff[it]=ch;
         it++;
     }
     int tmp=convert_to_int(buff);
     map.setWidth(tmp);
     it=0;
-    while(std::cin.get(ch) && ch!='\n'){
+    while((ch=getchar())&& ch!='\n'){
         buff[it]=ch;
         it++;
     }
@@ -42,7 +44,7 @@ void read_map(Vector<City> &cities,Map &map){
         it=0;
         memset(buff, '\0', sizeof(buff));
         for(int j=0;j<map.get_width();j++){
-            std::cin.get(ch);
+            (ch=getchar());
             map[i][j]=ch;
             if(ch!='#' && ch!='.' && ch!='*' && ch!='\n'){
                 it++;
@@ -55,7 +57,7 @@ void read_map(Vector<City> &cities,Map &map){
             }
             else it=0;
         }
-        std::cin.get(ch);
+        (ch=getchar());
     }
 }
 
@@ -64,7 +66,7 @@ void read_amount(int &amount){
     char ch=' ';
     int it=0;
     memset(buff, '\0', sizeof(buff));
-    while(std::cin.get(ch) && ch!='\n'){
+    while((ch=getchar())&& ch!='\n'){
         buff[it]=ch;
         it++;
     }
@@ -76,7 +78,7 @@ void read_name(String &name){
     char ch=' ';
     int it=0;
     memset(buff, '\0', sizeof(buff));
-    while(std::cin.get(ch) && ch!=' '){
+    while((ch=getchar()) && ch!=' '){
         buff[it]=ch;
         it++;
     }
@@ -112,7 +114,8 @@ void run_order(Graph &graph){
 }
 
 void bfs(Map &map, Graph &graph){
-    int direction_x[4] = {-1, 0, 1, 0};
+//    std::ofstream file("example.txt"); // otwarcie pliku do zapisu
+    int direction_x[4] = {1, 0, -1, 0};
     int direction_y[4] = {0, -1, 0, 1};
     int map_height= map.get_height();
     int map_width= map.get_width();
@@ -135,9 +138,17 @@ void bfs(Map &map, Graph &graph){
         points.push_back(point);
         while(!points.is_empty()){
             for(int z=0;z<points.getSize();z++) {
+//                for(int h=0;h<map_height;h++){
+//                    for(int w=0;w<map_width;w++){
+//                        if(visited_way[h][w]) file<<"1";
+//                        else file<<"0";
+//                    }
+//                    file<<std::endl;
+//                }
+//                file<<std::endl;
+//                file<<std::endl;
                 //Visit point
                 points[z].increase_distance();
-
                 //move
                 int directions=0;
                 point = points[z];
@@ -181,10 +192,12 @@ void bfs(Map &map, Graph &graph){
         delete [] visited_way[i];
     }
     delete [] visited_way;
+//    file.close(); // zamknięcie pliku
 }
 
+
 int main() {
-//    freopen("input.txt", "r", stdin);
+    freopen("input.txt", "r", stdin);
     Map map;
     Vector<City> cities;
 
@@ -199,7 +212,7 @@ int main() {
     add_airline(graph);
 
 
-//    graph.print();
+    graph.print();
     run_order(graph);
 
 

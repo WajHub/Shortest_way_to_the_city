@@ -1,0 +1,27 @@
+10 10
+##########
+##########
+##########
+##########
+####*#####
+#####A####
+##########
+##########
+##########
+##########
+0
+0
+
+
+Graph: 
+GORA-> KONIEC: 957 DOL: 786 KONIEC2: 1086 START: 1568 
+START-> GORA: 1568 KONIEC: 1565 DOL: 1612 KONIEC2: 2498 
+DOL-> GORA: 786 START: 1612 KONIEC: 1023 KONIEC2: 894 
+KONIEC-> GORA: 957 START: 1565 DOL: 1023 KONIEC2: 931 
+KONIEC2-> GORA: 1086 START: 2498 DOL: 894 KONIEC: 931 
+1565 
+2496 KONIEC 
+931
+786
+1612
+1023

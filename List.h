@@ -154,16 +154,16 @@ public:
     }
     void delete_node(Node *tmp);
 
-    int get_amount();
+    int get_amount()const ;
 
-    bool isEmpty();
+    bool isEmpty() const ;
 
-    bool exist_element(int n);
+    bool exist_element(int n) const ;
     T& get_element(int n);
 
     //funckja pobiera elementy od konca (dla komendy E)
     T& get_element_(int n);
-    bool exist_element_(int n);
+    bool exist_element_(int n) const;
 
     ~List();
 };
@@ -218,7 +218,7 @@ bool List<T>::delete_element(int n) {
 }
 
 template<typename T>
-bool List<T>::isEmpty() {
+bool List<T>::isEmpty()const {
     Node *tmp=head;
     while(tmp!= nullptr){
         if(tmp->isEmpty()) tmp=tmp->next;
@@ -228,7 +228,7 @@ bool List<T>::isEmpty() {
 }
 
 template<typename T>
-bool List<T>::exist_element_(int n) {
+bool List<T>::exist_element_(int n) const{
     if (tail != nullptr) {
         Node *tmp = tail;
         while (tmp != nullptr) {
@@ -277,7 +277,7 @@ T& List<T>::get_element(int n) {
 }
 
 template<typename T>
-bool List<T>::exist_element(int n) {
+bool List<T>::exist_element(int n) const{
     if (head != nullptr) {
         Node *tmp = head;
         while (tmp != nullptr) {
@@ -294,7 +294,7 @@ bool List<T>::exist_element(int n) {
     return false;
 }
 template<typename T>
-int List<T>::get_amount() {
+int List<T>::get_amount() const{
     int amount = 0;
     if (head != nullptr) {
         Node *tmp = head;

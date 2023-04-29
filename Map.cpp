@@ -42,6 +42,7 @@ void Map::setHeight(int height) {
 }
 
 void Map::set_size_map() {
+    if(map!= nullptr) delete map;
     map=new char*[height];
     for(int i=0;i<height;i++){
         map[i]=new char[width];

@@ -24,6 +24,7 @@ public:
     Vector();
     Vector(int size);
     Vector& operator=(const Vector& other);
+    Vector(const Vector& other);
     friend std::ostream& operator<<(std::ostream& os, const Vector<T>& vec) {
         os << "[";
         for (int i = 0; i < vec.size; ++i) {
@@ -38,6 +39,15 @@ public:
     ~Vector();
 };
 
+template<typename T>
+Vector<T>::Vector(const Vector &other) {
+    size = other.size;
+    capacity = other.capacity;
+    array = new T[capacity];
+    for (int i = 0; i < size; i++) {
+        array[i] = other.array[i];
+    }
+}
 template<typename T>
 bool Vector<T>::is_empty() {
     return size==0;
