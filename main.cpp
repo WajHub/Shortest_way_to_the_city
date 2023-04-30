@@ -66,7 +66,7 @@ void read_amount(int &amount){
     char ch=' ';
     int it=0;
     memset(buff, '\0', sizeof(buff));
-    while((ch=getchar())&& ch!='\n'){
+    while((ch=getchar())&& ch!='\377'&& ch!='\n'){
         buff[it]=ch;
         it++;
     }
@@ -114,7 +114,7 @@ void run_order(Graph &graph){
 }
 
 void bfs(Map &map, Graph &graph){
-//    std::ofstream file("example.txt"); // otwarcie pliku do zapisu
+    std::ofstream file("example.txt"); // otwarcie pliku do zapisu
     int direction_x[4] = {1, 0, -1, 0};
     int direction_y[4] = {0, -1, 0, 1};
     int map_height= map.get_height();
@@ -137,16 +137,17 @@ void bfs(Map &map, Graph &graph){
         visited_way[point.getY()][point.getX()]=true;
         points.push_back(point);
         while(!points.is_empty()){
+            int temp=points.getSize();
             for(int z=0;z<points.getSize();z++) {
-//                for(int h=0;h<map_height;h++){
-//                    for(int w=0;w<map_width;w++){
-//                        if(visited_way[h][w]) file<<"1";
-//                        else file<<"0";
-//                    }
-//                    file<<std::endl;
-//                }
-//                file<<std::endl;
-//                file<<std::endl;
+                for(int h=0;h<map_height;h++){
+                    for(int w=0;w<map_width;w++){
+                        if(visited_way[h][w]) file<<"1";
+                        else file<<"0";
+                    }
+                    file<<std::endl;
+                }
+                file<<std::endl;
+                file<<std::endl;
                 //Visit point
                 points[z].increase_distance();
                 //move
@@ -192,7 +193,7 @@ void bfs(Map &map, Graph &graph){
         delete [] visited_way[i];
     }
     delete [] visited_way;
-//    file.close(); // zamknięcie pliku
+    file.close(); // zamknięcie pliku
 }
 
 
