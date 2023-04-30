@@ -165,6 +165,10 @@ public:
     T& get_element_(int n);
     bool exist_element_(int n) const;
 
+
+    //tworzy obiekt bezpośrednio w pamięci przy użyciu konstruktora przenoszącego
+    void emplace_back(T&& obj);
+
     ~List();
 };
 
@@ -311,6 +315,21 @@ template<typename T>
 List<T>::List() {
     head = nullptr;
     tail = nullptr;
+}
+
+template<typename T>
+void List<T>::emplace_back(T&& obj) {
+    if (tail == nullptr) {
+        tail = new Node(obj);
+        head = tail;
+    } else if (tail->counter < LENGTH) {
+        tail->add(obj);
+    } else {
+        Node* tmp = new Node(obj);
+        tail->next = tmp;
+        tmp->prev = tail;
+        tail = tmp;
+    }
 }
 
 template<typename T>
