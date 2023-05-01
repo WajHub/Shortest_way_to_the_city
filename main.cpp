@@ -5,7 +5,7 @@
 #include "Map.h"
 #include "Graph.h"
 #include "Point.h"
-
+#include "HashMap.h"
 
 
 int convert_to_int(char *buff) {
@@ -168,25 +168,32 @@ void bfs(Map &map, Graph &graph) {
     delete[] visited_way;
 }
 
-
 int main() {
-    freopen("input.txt", "r", stdin);
-    Map map;
-    Vector<City> cities;
+//    freopen("input.txt", "r", stdin);
+//    Map map;
+//    Vector<City> cities;
+//
+//    read_map(cities, map);
+//    map.name_of_city_and_location(cities);
+//    //Build Graph
+//    Graph graph(cities);
+//
+//    bfs(map, graph);
+//
+//
+//    add_airline(graph);
+//
+//
+////    graph.print();
+//    run_order(graph);
 
-    read_map(cities, map);
-    map.name_of_city_and_location(cities);
-    //Build Graph
-    Graph graph(cities);
 
-    bfs(map, graph);
-
-
-    add_airline(graph);
-
-
-//    graph.print();
-    run_order(graph);
+    //TESTY HASHMAPY
+    HashMap<int> hashMap;
+    hashMap.put(10,10,100);
+    hashMap.put(2,2,4);
+    hashMap.put(3,3,9);
+    std::cout<<hashMap<<std::endl;
 
 
     return 0;
