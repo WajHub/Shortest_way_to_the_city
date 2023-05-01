@@ -7,7 +7,7 @@
 #include "List.h"
 #include "City.h"
 #include "Vector.h"
-
+#include "HashMap.h"
 
 class Graph {
 private:
@@ -58,7 +58,7 @@ private:
     int size;
     Vector<Vertex*> vertices;
 public:
-    void dijkstra(String &source, String &destination, int order);
+    void dijkstra(String &source, String &destination, int order,HashMap &hash_map);
     Graph(Vector<City> &cities);
     Vertex &get_vertex(String &name);
     Vertex &get_vertex(int x, int y);

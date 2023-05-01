@@ -7,7 +7,7 @@
 
 #pragma once
 #include <iostream>
-#define LENGTH_BUFF 256
+#define LENGTH_BUFF 21
 
 class String {
 private:
@@ -21,6 +21,8 @@ public:
     bool operator==(const String& other) const;
     bool isEmpty();
     String& operator=(const String& other);
+    char& operator[](int index) const;
+    bool operator!=(const String& other);
     friend std::ostream& operator<<(std::ostream& out, const String& string);
     ~String();
 };

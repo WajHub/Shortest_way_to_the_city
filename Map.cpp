@@ -42,7 +42,6 @@ void Map::setHeight(int height) {
 }
 
 void Map::set_size_map() {
-    if(map!= nullptr) delete map;
     map=new char*[height];
     for(int i=0;i<height;i++){
         map[i]=new char[width];
@@ -70,6 +69,16 @@ bool Map::is_city(int x, int y) {
         else return false;
     }
 }
+
+bool Map::is_without_way_and_cities(int x, int y, int *direction_x, int *direction_y) {
+    for(int i=0;i<4;i++){
+        if(is_way(x+direction_x[i],y+direction_y[i]) || is_city(x+direction_x[i],y+direction_y[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
 void Map::name_of_city_and_location(Vector<City> &cities) {
     for(int i=0;i<cities.getSize();i++){
         String name;
@@ -123,6 +132,7 @@ void Map::print() {
         std::cout<<std::endl;
     }
 }
+
 
 
 

@@ -65,9 +65,9 @@ Graph::Vertex &Graph::get_vertex(int index) {
     return *vertices[index];
 }
 
-void Graph::dijkstra(String &source, String &destination, int order) {
-    int id = getId(source);
-    int target_id = getId(destination);
+void Graph::dijkstra(String &source, String &destination, int order,HashMap &hash_map) {
+    int id = hash_map.get(source);
+    int target_id =hash_map.get(destination);
     Vector<Vertex*>visited;
     Vector<Vertex*> vertices_to_visit;
     for (int i = 0; i < vertices.getSize(); ++i) {
@@ -86,7 +86,7 @@ void Graph::dijkstra(String &source, String &destination, int order) {
         //wszyscy sasiedzi przeniesionego wierzcholka
         for(int i=0;i<get_vertex(id).edges.getSize();i++){
             Vertex *neighbour = get_vertex(id).edges[i].get_neighbour();
-            int neighbour_id = getId(neighbour->getCity().getName());
+            int neighbour_id = hash_map.get(neighbour->getCity().getName());
             //Jesli dystans od zrolda naszego sasiada jest wieksza niz odleglosc sumy odleglosci calkowitej i krawedzi sasiada
             if(distance_from_source[neighbour_id]>distance_from_source[id]+get_vertex(id).edges[i].getDistance()){
                 //zmieniamy calkowita odleglosc od zrolda
@@ -97,9 +97,10 @@ void Graph::dijkstra(String &source, String &destination, int order) {
         }
         //znajdujemy najmniejszy dystans
         int min = INT_MAX;
+        Vertex *vertex_min;
         for(int i=0;i<vertices_to_visit.getSize();i++){
-            Vertex *vertex_min = vertices_to_visit[i];
-            int index_min = getId(vertex_min->getCity().getName());
+            vertex_min = vertices_to_visit[i];
+            int index_min = hash_map.get(vertex_min->getCity().getName());
             if(distance_from_source[index_min]<min){
                 min = distance_from_source[index_min];
                 id = index_min;
@@ -120,7 +121,7 @@ void Graph::dijkstra(String &source, String &destination, int order) {
     std::cout<<distance_from_source[target_id]<<" ";
     if(order==1){
         int tmp_id  = previous[target_id];
-        int start_id = getId(source);
+        int start_id = hash_map.get(source);
         Vector<String> path;
         while(tmp_id!=start_id && tmp_id!=-1){
             path.push_back(vertices[tmp_id]->getCity().getName());

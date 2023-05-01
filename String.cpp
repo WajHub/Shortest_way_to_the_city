@@ -85,5 +85,15 @@ bool String::isEmpty() {
     return false;
 }
 
+char& String::operator[](int index) const {
+    if (index >= 0 && index < size - 1) {
+        return array[index];
+    } else {
+        return array[size - 1];
+    }
+}
 
+bool String::operator!=(const String &other) {
+    return !(*this==other);
+}
 
