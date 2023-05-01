@@ -193,7 +193,10 @@ int main() {
     hashMap.put(10,10,100);
     hashMap.put(2,2,4);
     hashMap.put(3,3,9);
-    std::cout<<hashMap<<std::endl;
+    if(hashMap.get(3,3)!=NULL){
+        std::cout<<*hashMap.get(3,3)<<std::endl;
+    }
+
 
 
     return 0;

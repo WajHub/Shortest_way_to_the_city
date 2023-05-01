@@ -55,15 +55,15 @@ public:
         }
     }
 
-    V get(int key1, int key2) {
+    V *get(int key1, int key2) const {
         unsigned long hashValue = hash(key1, key2);
         Node* node = table[hashValue];
         while (node != NULL && node->x != key1 && node->y != key2)
             node = node->next;
         if (node == NULL)
-            return "";
+            return nullptr;
         else
-            return node->value;
+            return &(node->value);
     }
 
     ~HashMap() {
