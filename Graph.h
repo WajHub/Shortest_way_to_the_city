@@ -9,6 +9,7 @@
 #include "Vector.h"
 #include "HashMap.h"
 
+
 class Graph {
 private:
     class Vertex;
@@ -64,12 +65,12 @@ public:
     Vertex &get_vertex(int x, int y);
     Vertex &get_vertex(int index);
     int getSize() const;
-    int getId(const String &name);
     void add_edge(Vertex &v1, Vertex &v2, int distance);
     void add_edge_one_direction(Vertex &v1, Vertex &v2, int distance);
     void print();
     ~Graph();
 };
+
 
 
 #endif //SHORTEST_WAY_TO_THE_CITY_GRAPH_H

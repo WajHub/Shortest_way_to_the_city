@@ -6,8 +6,7 @@
 #include "Graph.h"
 #include "Point.h"
 #include "HashMap.h"
-
-#include <chrono>
+#include "Priority_queue.h"
 
 
 int convert_to_int(char *buff) {
@@ -178,7 +177,7 @@ void build_hash_map(HashMap &hash_map, Vector<City> &cities){
 }
 
 int main() {
-    freopen("input.txt", "r", stdin);
+//    freopen("input.txt", "r", stdin);
     Map map;
     Vector<City> cities;
     HashMap hash_map;
@@ -197,6 +196,8 @@ int main() {
 
 //    graph.print();
     run_order(graph,hash_map);
+
+
 
     return 0;
 }

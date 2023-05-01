@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include "Graph.h"
+#include "Priority_queue.h"
 
 Graph::Graph(Vector<City> &cities) {
     this->size = cities.getSize();
@@ -66,13 +67,9 @@ Graph::Vertex &Graph::get_vertex(int index) {
 }
 
 void Graph::dijkstra(String &source, String &destination, int order,HashMap &hash_map) {
+    int min = INT_MAX;
     int id = hash_map.get(source);
-    int target_id =hash_map.get(destination);
-    Vector<Vertex*>visited;
-    Vector<Vertex*> vertices_to_visit;
-    for (int i = 0; i < vertices.getSize(); ++i) {
-        vertices_to_visit.push_back(vertices[i]);
-    }
+    int target_id = hash_map.get(destination);
     int *distance_from_source = new int[vertices.getSize()];
     int *previous = new int[vertices.getSize()];
     for (int i = 0; i < vertices.getSize(); ++i) {
@@ -80,44 +77,28 @@ void Graph::dijkstra(String &source, String &destination, int order,HashMap &has
         previous[i] = -1;
     }
     distance_from_source[id] = 0;
-    visited.push_back(vertices_to_visit[id]);
-    vertices_to_visit.delete_element(id);
-    while(!vertices_to_visit.is_empty()){
-        //wszyscy sasiedzi przeniesionego wierzcholka
-        for(int i=0;i<get_vertex(id).edges.getSize();i++){
+    Priority_queue<Vertex*> queue;
+    queue.push(vertices[hash_map.get(source)],0);
+    while(!queue.is_empty()){
+        Vertex *temp = queue.back_value();
+        id=hash_map.get(temp->getCity().getName());
+        //Wszyscy sasiedzi sciagnietego z kolejki wierzcholka
+        for(int i=0;i< get_vertex(id).edges.getSize();i++){
             Vertex *neighbour = get_vertex(id).edges[i].get_neighbour();
             int neighbour_id = hash_map.get(neighbour->getCity().getName());
-            //Jesli dystans od zrolda naszego sasiada jest wieksza niz odleglosc sumy odleglosci calkowitej i krawedzi sasiada
+            //Jesli dystans od zrodla naszego sasiada jest wieksza niz odleglosc sumy odleglosci calkowitej i krawedzi sasiada
             if(distance_from_source[neighbour_id]>distance_from_source[id]+get_vertex(id).edges[i].getDistance()){
                 //zmieniamy calkowita odleglosc od zrolda
                 distance_from_source[neighbour_id] = distance_from_source[id]+get_vertex(id).edges[i].getDistance();
                 //poprzednik
                 previous[neighbour_id] = id;
-            }
-        }
-        //znajdujemy najmniejszy dystans
-        int min = INT_MAX;
-        Vertex *vertex_min;
-        for(int i=0;i<vertices_to_visit.getSize();i++){
-            vertex_min = vertices_to_visit[i];
-            int index_min = hash_map.get(vertex_min->getCity().getName());
-            if(distance_from_source[index_min]<min){
-                min = distance_from_source[index_min];
-                id = index_min;
-            }
-        }
-        visited.push_back(vertices[id]);
-        for(int i=0;i<vertices_to_visit.getSize();i++){
-            if(vertices_to_visit[i]->getCity().getName()==vertices[id]->getCity().getName()){
-                vertices_to_visit.delete_element(i);
-                break;
+                queue.push(neighbour,distance_from_source[neighbour_id]);
             }
         }
         if(id==target_id){
             break;
         }
     }
-
     std::cout<<distance_from_source[target_id]<<" ";
     if(order==1){
         int tmp_id  = previous[target_id];
@@ -136,14 +117,6 @@ void Graph::dijkstra(String &source, String &destination, int order,HashMap &has
     delete [] previous;
 }
 
-int Graph::getId(const String &name) {
-    for(int i=0;i<vertices.getSize();++i){
-        if(vertices[i]->getCity().getName()==name){
-            return i;
-        }
-    }
-    return -1;
-}
 
 
 

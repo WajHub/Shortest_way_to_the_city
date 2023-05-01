@@ -39,6 +39,8 @@ public:
     ~Vector();
 };
 
+
+
 template<typename T>
 Vector<T>::Vector(const Vector &other) {
     size = other.size;
