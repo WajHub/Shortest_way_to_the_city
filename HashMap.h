@@ -19,7 +19,7 @@ private:
         }
         Node *next=NULL;
     };
-    Node *table[SIZE];
+    Node **table;
 
     unsigned int hash(const String& str) const {
         uint32_t h = 0;
@@ -34,8 +34,10 @@ private:
 
 public:
     HashMap() {
-        for (int i = 0; i < SIZE; i++)
+        table = new Node*[SIZE];
+        for (int i = 0; i < SIZE; i++) {
             table[i] = NULL;
+        }
     }
     void put(String name, int value) {
         unsigned long hashValue = hash(name);
@@ -75,8 +77,8 @@ public:
                 node = node->next;
                 delete prev;
             }
-            table[i] = NULL;
         }
+        delete[] table;
     }
     friend std::ostream& operator<<(std::ostream& os, const HashMap& map) {
         for (int i = 0; i < SIZE; i++) {
